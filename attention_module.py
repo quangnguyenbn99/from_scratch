@@ -46,3 +46,26 @@ class MultiheadAttention(nn.Module):
         x = self.multihead_linear(x)  # shape: (batch_size, seq_len, embed_dim)
 
         return x
+
+   class Attention_block(nn.Module):
+    "Attention block"
+    def __init__(self, hidden_dim, num_heads, norm_dim):
+        super(Attention_block,self).__init__()
+        self.hidden_dim = hidden_dim
+        self.norm_dim = norm_dim
+        self.mh_att = nn.MultiheadAttention(embed_dim = hidden_dim,
+                                             num_heads = num_heads,
+                                             batch_first =True)
+        self.batch_norm = nn.BatchNorm1d(norm_dim)
+        self.activation = nn.ReLU()
+
+    def forward(self,Q,K,V):
+        attention_output, _ = self.mh_att(Q,K,V)
+        batch, length, hid_dim =  attention_output.size()
+        # Reshape input tensor to (batch_size*hid_dim, length)
+        attention_output = attention_output.transpose(1, 2).contiguous().view(-1, self.norm_dim)
+        attention_output = self.batch_norm(attention_output)
+        attention_output = attention_output.view(batch, hid_dim, self.norm_dim)
+
+        return self.activation(attention_output.transpose(1, 2))
+    
