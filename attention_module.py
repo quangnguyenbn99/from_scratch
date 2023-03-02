@@ -20,11 +20,11 @@ class MultiheadAttention(nn.Module):
         # Define dropout layer
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, inputs, mask=None):
+    def forward(self, inputs_Q,inputs_K,inputs_V, mask=None):
         # Apply query, key, and value linear transformations
-        q = self.q_linear(inputs)  # shape: (batch_size, seq_len, embed_dim)
-        k = self.k_linear(inputs)  # shape: (batch_size, seq_len, embed_dim)
-        v = self.v_linear(inputs)  # shape: (batch_size, seq_len, embed_dim)
+        q = self.q_linear(inputs_Q)  # shape: (batch_size, seq_len, embed_dim)
+        k = self.k_linear(inputs_K)  # shape: (batch_size, seq_len, embed_dim)
+        v = self.v_linear(inputs_V)  # shape: (batch_size, seq_len, embed_dim)
 
         # Split the embeddings into num_heads pieces
         batch_size = q.size(0)
