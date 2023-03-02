@@ -10,9 +10,9 @@ class MultiheadAttention(nn.Module):
         self.num_heads = num_heads
 
         # Define query, key, and value linear transformations
-        self.q_linear = nn.Linear(input_dim, embed_dim)
-        self.k_linear = nn.Linear(input_dim, embed_dim)
-        self.v_linear = nn.Linear(input_dim, embed_dim)
+        self.q_linear = nn.Linear(input_dim, embed_dim, bias= False)
+        self.k_linear = nn.Linear(input_dim, embed_dim, bias= False)
+        self.v_linear = nn.Linear(input_dim, embed_dim, bias= False)
 
         # Define multi-head linear transformation
         self.multihead_linear = nn.Linear(embed_dim, embed_dim)
