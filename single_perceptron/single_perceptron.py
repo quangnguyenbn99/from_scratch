@@ -1,6 +1,6 @@
 import numpy as np
 import random
-
+#[ref]: https://matt.might.net/articles/hello-perceptron/
 # Here’s a high-level overview of the perceptron learning algorithm:
 	# Initialize the weights and threshold with random values.
 	# For each input-output pair in the training data:
